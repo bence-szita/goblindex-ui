@@ -8,6 +8,7 @@ import ItemDetailsCard from "@/app/ui/item-details-card";
 import { getPriceTimeSeries, getQuantityTimeSeries } from "@/app/lib/utils";
 import { useRealmStore } from "@/app/store/realm";
 import numberToGold from "@/app/lib/parsers";
+import { CircularProgress } from "@mui/material";
 
 export default function ItemDetails() {
   const [itemData, setItemData] = useState<ItemDetails>();
@@ -50,26 +51,36 @@ export default function ItemDetails() {
   return (
     <>
       <div className="grow p-4">
-        {loading && <div className="text-blue-500">Loading...</div>}
+        {loading && (
+          <div className="flex flex-row justify-center mt-24">
+            <CircularProgress />
+          </div>
+        )}
         {error && <div className="text-red-500">Error: {error}</div>}
         {!loading && !error && itemData && (
           <>
             {/* Display noData when volume is negative */}
 
-            <p className="text-2xl font-bold mb-4">
-              {itemData.itemID} - {itemData.itemName}
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-              <ItemDetailsCard header="Minimum Price" text={numberToGold(itemData.minPrice)} />
-              <ItemDetailsCard header="Historic Price" text={numberToGold(itemData.historicPrice)} />
-              <ItemDetailsCard header="Daily Sale" text={itemData.salesPerDay} />
+            <div className="flex flex-col gap-2">
+              <div>
+                <span className="mr-4 text-neutral-500">{itemData.itemID}</span>
+                <span className="text-2xl font-bold mb-4 text-neutral-200">{itemData.itemName}</span>
+              </div>
+              <span></span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                <ItemDetailsCard header="Minimum Price" text={numberToGold(itemData.minPrice)} />
+                <ItemDetailsCard header="Historic Price" text={numberToGold(itemData.historicPrice)} />
+                <ItemDetailsCard header="Daily Sale" text={itemData.salesPerDay} />
 
-              <ItemDetailsCard header="Current Quantity" text={itemData.minPrice} />
-              <ItemDetailsCard header="Average Quantity" text={itemData.historicPrice} />
+                <ItemDetailsCard header="Current Quantity" text={itemData.minPrice} />
+                <ItemDetailsCard header="Average Quantity" text={itemData.historicPrice} />
+              </div>
+
+              <div className="text-xl font-medium mb-4 text-neutral-200">Price</div>
+              <Chart plotData={getPriceTimeSeries(itemData)} yLabel="Price" chartType="price" />
+              <div className="text-xl font-medium mb-4 text-neutral-200">Quantity</div>
+              <Chart plotData={getQuantityTimeSeries(itemData)} yLabel="Quantity" chartType="quantity" />
             </div>
-
-            <Chart plotData={getPriceTimeSeries(itemData)} yLabel="Price" chartType="price" />
-            <Chart plotData={getQuantityTimeSeries(itemData)} yLabel="Quantity" chartType="quantity" />
           </>
         )}
       </div>

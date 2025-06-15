@@ -65,10 +65,10 @@ function Chart({
   return (
     <div className="overflow-x-auto">
       <ResponsiveContainer width="100%" height={400}>
-        <LineChart height={300} data={plotData}>
-          <CartesianGrid vertical={false} stroke="#64748b" strokeDasharray="3 3" />
+        <LineChart height={300} data={plotData} margin={{ left: 15 }}>
+          <CartesianGrid vertical={false} stroke="#52525b" strokeDasharray="1 5" />
           <XAxis
-            stroke="#64748b"
+            stroke="#52525b"
             dataKey="time"
             scale={"time"}
             type={"number"}
@@ -76,7 +76,11 @@ function Chart({
             tickCount={245}
             tickFormatter={(value) => format(new Date(value), "MM/dd h aaaa")}
           />
-          <YAxis dataKey="data" stroke="#64748b" />
+          <YAxis
+            dataKey="data"
+            stroke="#52525b"
+            label={{ value: yLabel, angle: -90, offset: -10, position: "insideLeft" }}
+          />
           <Tooltip
             isAnimationActive={false}
             content={(tooltipProps) => (

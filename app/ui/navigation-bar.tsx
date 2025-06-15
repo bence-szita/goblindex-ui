@@ -19,7 +19,7 @@ export default function NavigationBar() {
             <Link
               key={link.name}
               href={link.href}
-              className={clsx("hover:bold", { "font-bold": pathname === link.href })}
+              className={clsx("hover:bold", { "font-bold": pathname.startsWith(link.href) })}
             >
               {link.name}
             </Link>
