@@ -1,8 +1,6 @@
 import React from "react";
-import { Autocomplete, AutocompleteRenderGroupParams, TextField, Popper } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { VariableSizeList, ListChildComponentProps } from "react-window";
-import { styled } from "@mui/material/styles";
-import { getItemOptions } from "@/app/lib/utils";
 
 // Types
 interface VirtualizedAutocompleteProps<T> {
@@ -51,7 +49,7 @@ const ListboxComponent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
   });
 
   const itemCount = itemData.length;
-  const itemSize = 48;
+  const itemSize = 36;
 
   const getHeight = () => {
     return itemCount > 8 ? 8 * itemSize : itemData.length * itemSize;

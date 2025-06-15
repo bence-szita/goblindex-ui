@@ -111,11 +111,16 @@ const mockData2 = {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const itemId = searchParams.get("itemId");
+  const region = searchParams.get("region");
+  const realmId = searchParams.get("realmId");
+  console.log("itemId", itemId, "region", region, "realmId", realmId);
 
-  if (!itemId) {
-    return new Response(JSON.stringify({ error: "Missing itemId" }), {
-      status: 400,
-    });
+  const requiredParams = { itemId, realmId, region };
+
+  for (const [key, value] of Object.entries(requiredParams)) {
+    if (!value) {
+      return new Response(JSON.stringify({ error: `Missing ${key}` }), { status: 400 });
+    }
   }
 
   try {
@@ -124,25 +129,28 @@ export async function GET(request: NextRequest) {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
       body: JSON.stringify({
-        homeRealmId: 604, //TODO: replace with actual realm ID
-        region: "EU",
-        itemID: parseInt(itemId),
+        homeRealmId: parseInt(realmId as string),
+        region: region,
+        itemID: parseInt(itemId as string),
       }),
     });
-    // console.log('res', res);
 
     if (!res.ok) {
-      return NextResponse.json(JSON.stringify({ error: "Error fetching data" }), { status: res.status });
+      return NextResponse.json({ error: "Error fetching data" }, { status: res.status });
     }
 
     const data = await res.json();
-    console.log("res", data);
+    console.log("API response data:", data?.data?.historicPrice);
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
-    });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      {
+        status: 500,
+      }
+    );
   }
 }

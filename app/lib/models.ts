@@ -25,17 +25,22 @@ export interface ItemDetails {
   link: string;
 }
 
-export interface PriceTimeSeries {
-  price: number;
+export interface TimeSeriesDataPoint {
+  data: number;
   time: number;
-}
-
-export interface SalesTimeSeries {
-  quantity: number;
-  time: string;
 }
 
 export interface ItemOption {
   value: string;
   text: string;
+}
+
+export interface LabelValue {
+  label: string;
+  value: string;
+}
+
+export interface RealmData {
+  name: string;
+  id: number;
 }
