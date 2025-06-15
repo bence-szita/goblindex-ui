@@ -44,3 +44,5 @@ export interface RealmData {
   name: string;
   id: number;
 }
+
+export type ChartTypes = "price" | "quantity";

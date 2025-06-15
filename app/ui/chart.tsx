@@ -12,18 +12,20 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ItemDetails, TimeSeriesDataPoint } from "@/app/lib/models";
+import { ChartTypes, ItemDetails, TimeSeriesDataPoint } from "@/app/lib/models";
+import numberToGold from "@/app/lib/parsers";
 
 import { format } from "date-fns";
 import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 interface CustomLineChartTooltipProps extends TooltipProps<ValueType, NameType> {
   yLabel?: string;
+  valueFormatter?: Function | null;
   description?: string;
 }
 
 function LineChartTooltip(props: CustomLineChartTooltipProps) {
-  const { active, payload, label, yLabel, description } = props;
+  const { active, payload, label, yLabel, description, valueFormatter } = props;
 
   if (!active || !payload || payload.length === 0) {
     return null;
@@ -40,13 +42,22 @@ function LineChartTooltip(props: CustomLineChartTooltipProps) {
         </div>
 
         <span className="text-zinc-600">{yLabel ?? "Data :"}: </span>
-        <span className="text-zinc-900">{payload[0].value}</span>
+        <span className="text-zinc-900">{valueFormatter ? valueFormatter(payload[0].value) : payload[0].value}</span>
       </div>
     </div>
   );
 }
 
-function Chart({ plotData, yLabel }: { plotData: TimeSeriesDataPoint[]; xLabel?: string; yLabel?: string }) {
+function Chart({
+  plotData,
+  yLabel,
+  chartType,
+}: {
+  plotData: TimeSeriesDataPoint[];
+  xLabel?: string;
+  yLabel?: string;
+  chartType: ChartTypes;
+}) {
   if (!plotData || plotData.length === 0) {
     return <div className="text-zinc-400 my-24">Historical {yLabel} data is not available</div>;
   }
@@ -68,7 +79,13 @@ function Chart({ plotData, yLabel }: { plotData: TimeSeriesDataPoint[]; xLabel?:
           <YAxis dataKey="data" stroke="#64748b" />
           <Tooltip
             isAnimationActive={false}
-            content={(tooltipProps) => <LineChartTooltip {...tooltipProps} yLabel={yLabel} />}
+            content={(tooltipProps) => (
+              <LineChartTooltip
+                {...tooltipProps}
+                yLabel={yLabel}
+                valueFormatter={chartType === "price" ? numberToGold : null}
+              />
+            )}
           />
           <Line
             type="linear"

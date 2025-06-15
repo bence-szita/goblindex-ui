@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import ItemDetailsCard from "@/app/ui/item-details-card";
 import { getPriceTimeSeries, getQuantityTimeSeries } from "@/app/lib/utils";
 import { useRealmStore } from "@/app/store/realm";
+import numberToGold from "@/app/lib/parsers";
 
 export default function ItemDetails() {
   const [itemData, setItemData] = useState<ItemDetails>();
@@ -59,16 +60,16 @@ export default function ItemDetails() {
               {itemData.itemID} - {itemData.itemName}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-              <ItemDetailsCard header="Minimum Price" text={itemData.minPrice} />
-              <ItemDetailsCard header="Historic Price" text={itemData.historicPrice} />
+              <ItemDetailsCard header="Minimum Price" text={numberToGold(itemData.minPrice)} />
+              <ItemDetailsCard header="Historic Price" text={numberToGold(itemData.historicPrice)} />
               <ItemDetailsCard header="Daily Sale" text={itemData.salesPerDay} />
 
               <ItemDetailsCard header="Current Quantity" text={itemData.minPrice} />
               <ItemDetailsCard header="Average Quantity" text={itemData.historicPrice} />
             </div>
 
-            <Chart plotData={getPriceTimeSeries(itemData)} yLabel="Price" />
-            <Chart plotData={getQuantityTimeSeries(itemData)} yLabel="Quantity" />
+            <Chart plotData={getPriceTimeSeries(itemData)} yLabel="Price" chartType="price" />
+            <Chart plotData={getQuantityTimeSeries(itemData)} yLabel="Quantity" chartType="quantity" />
           </>
         )}
       </div>
