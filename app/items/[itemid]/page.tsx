@@ -32,7 +32,6 @@ export default function ItemDetails() {
       try {
         setLoading(true);
         setError(null);
-        // Replace with your actual API endpoint
 
         const response = await fetch(
           `/api/item-details?itemId=${params.itemid}&region=${regionValue.value}&realmId=${realmValue.id}`

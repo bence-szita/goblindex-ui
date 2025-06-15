@@ -1,18 +1,8 @@
 import { QuantityAtPrice } from "@/app/lib/models";
 import numberToGold from "@/app/lib/parsers";
-import { format } from "date-fns";
 import React from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  ResponsiveContainer,
-  TooltipProps,
-  Brush,
-} from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, TooltipProps } from "recharts";
+import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 interface CustomBarChartTooltipProps extends TooltipProps<ValueType, NameType> {
   xLabel?: string;

@@ -48,10 +48,12 @@ function getTimeStamp(now: Date, hoursOffset: number): number {
 }
 
 export function getItemOptions(): ItemOption[] {
-  return Object.entries(wowItems).map(([key, value]) => ({
-    value: key,
-    text: value,
-  }));
+  return Object.entries(wowItems)
+    .map(([key, value]) => ({
+      value: key,
+      text: value,
+    }))
+    .sort((a, b) => a.text.localeCompare(b.text));
 }
 
 export function binPrices(data: QuantityAtPrice[], binSize: number) {
