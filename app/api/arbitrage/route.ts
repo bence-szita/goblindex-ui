@@ -4,9 +4,9 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const itemId = searchParams.get("itemId");
   const region = searchParams.get("region");
-  const realmId = searchParams.get("realmId");
+  console.log("itemId", itemId, "region", region);
 
-  const requiredParams = { itemId, realmId, region };
+  const requiredParams = { itemId, region };
 
   for (const [key, value] of Object.entries(requiredParams)) {
     if (!value) {
@@ -15,14 +15,20 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const res = await fetch(`http://api.saddlebagexchange.com/api/wow/v2/listings`, {
+    const res = await fetch(`http://api.saddlebagexchange.com/api/wow/exportx`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       cache: "no-store",
       body: JSON.stringify({
-        homeRealmId: parseInt(realmId as string),
+        populationWP: 3000,
+        populationBlizz: 1,
+        rankingWP: 90,
+        minPrice: 1,
+        maxQuantity: 1000,
+        sortBy: "minPrice",
+        connectedRealmIDs: {},
         region: region,
         itemID: parseInt(itemId as string),
       }),

@@ -25,6 +25,19 @@ export interface ItemDetails {
   link: string;
 }
 
+export interface ArbitrageDetails {
+  connectedRealmID: number;
+  connectedRealmNames: string[];
+  itemQuantity: number;
+  minPrice: number;
+  realmPopulationType: string;
+  realmPopulationInt: number;
+  realmPopulationReal: number;
+  realmRanking: number;
+  link: string;
+  undermineLink: string;
+}
+
 export interface TimeSeriesDataPoint {
   data: number;
   time: number;
