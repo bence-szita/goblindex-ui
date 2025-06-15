@@ -58,7 +58,7 @@ function ItemsSidebar() {
   };
 
   return (
-    <aside className="flex flex-col h-full w-72 gap-3 p-4">
+    <aside className="flex flex-col h-full w-72 gap-3 py-5 pr-5">
       <FormControl>
         <InputLabel id="region-select-label">Region</InputLabel>
         <Select

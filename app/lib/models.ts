@@ -45,4 +45,9 @@ export interface RealmData {
   id: number;
 }
 
+export interface QuantityAtPrice {
+  price: number;
+  quantity: number;
+}
+
 export type ChartTypes = "price" | "quantity";

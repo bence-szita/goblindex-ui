@@ -9,6 +9,8 @@ import { getPriceTimeSeries, getQuantityTimeSeries } from "@/app/lib/utils";
 import { useRealmStore } from "@/app/store/realm";
 import numberToGold from "@/app/lib/parsers";
 import { CircularProgress } from "@mui/material";
+import PriceDistributionChart from "@/app/ui/price-distribution";
+import PriceDistributionHistogramChart from "@/app/ui/price-distribution-histogram";
 
 export default function ItemDetails() {
   const [itemData, setItemData] = useState<ItemDetails>();
@@ -50,7 +52,7 @@ export default function ItemDetails() {
 
   return (
     <>
-      <div className="grow p-4">
+      <div className="grow p-5">
         {loading && (
           <div className="flex flex-row justify-center mt-24">
             <CircularProgress />
@@ -80,6 +82,10 @@ export default function ItemDetails() {
               <Chart plotData={getPriceTimeSeries(itemData)} yLabel="Price" chartType="price" />
               <div className="text-xl font-medium mb-4 text-neutral-200">Quantity</div>
               <Chart plotData={getQuantityTimeSeries(itemData)} yLabel="Quantity" chartType="quantity" />
+              <div className="text-xl font-medium mb-4 text-neutral-200">Current Listings</div>
+              <PriceDistributionChart plotData={itemData.listingData} />
+              <div className="text-xl font-medium mb-4 text-neutral-200">Histogram of Current Listings</div>
+              <PriceDistributionHistogramChart plotData={itemData.listingData} />
             </div>
           </>
         )}

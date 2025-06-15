@@ -37,12 +37,14 @@ function LineChartTooltip(props: CustomLineChartTooltipProps) {
     <div className="bg-white border border-gray-300 p-4 rounded shadow-lg min-w-52">
       <div>
         <div className="flex justify-between">
-          <p className="text-zinc-900 font-medium">{`${format(date, "yyyy/MM/dd")}`}</p>
-          <p className="text-zinc-900">{`${format(new Date(label), "h aaaa")}`}</p>
+          <p className="text-zinc-900 font-semibold">{`${format(date, "yyyy/MM/dd")}`}</p>
+          <p className="text-zinc-900 font-semibold">{`${format(new Date(label), "h aaaa")}`}</p>
         </div>
 
-        <span className="text-zinc-600">{yLabel ?? "Data :"}: </span>
-        <span className="text-zinc-900">{valueFormatter ? valueFormatter(payload[0].value) : payload[0].value}</span>
+        <span className="text-zinc-600  text-sm">{yLabel ?? "Data :"}: </span>
+        <span className="text-zinc-900 font-semibold">
+          {valueFormatter ? valueFormatter(payload[0].value) : payload[0].value}
+        </span>
       </div>
     </div>
   );
@@ -94,7 +96,7 @@ function Chart({
           <Line
             type="linear"
             dataKey="data"
-            stroke="#A9F0D1"
+            stroke="#a5f3fc"
             strokeWidth={1.5}
             dot={false}
             activeDot={{ stroke: "#A9F0D1", strokeWidth: 2, r: 3 }}
