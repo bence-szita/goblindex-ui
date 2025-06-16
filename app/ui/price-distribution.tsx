@@ -18,9 +18,6 @@ function BarChartTooltip(props: CustomBarChartTooltipProps) {
     return null;
   }
 
-  const date = new Date(label as number);
-  console.log(props);
-
   return (
     <div className="bg-white border border-gray-300 p-4 rounded shadow-lg min-w-52">
       <div>

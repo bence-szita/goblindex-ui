@@ -58,7 +58,7 @@ function ItemsSidebar() {
   };
 
   return (
-    <aside className="flex flex-col h-full w-72 gap-3 py-5 pr-5">
+    <aside className="flex flex-col h-full w-72 min-w-72 gap-5 py-5 pr-5">
       <FormControl>
         <InputLabel id="region-select-label">Region</InputLabel>
         <Select
@@ -97,7 +97,7 @@ function ItemsSidebar() {
         value={selectedItem}
         options={itemOptions}
         onChange={(_, value: ItemOption | null) => setSelectedItem(value)}
-        label="Item Id"
+        label="Item"
       />
     </aside>
   );

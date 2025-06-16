@@ -11,6 +11,8 @@ import numberToGold from "@/app/lib/parsers";
 import { CircularProgress } from "@mui/material";
 import PriceDistributionChart from "@/app/ui/price-distribution";
 import PriceDistributionHistogramChart from "@/app/ui/price-distribution-histogram";
+import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
+import Link from "next/link";
 
 export default function ItemDetails() {
   const [itemData, setItemData] = useState<ItemDetails>();
@@ -51,7 +53,7 @@ export default function ItemDetails() {
 
   return (
     <>
-      <div className="grow p-5">
+      <div className="grow my-5 px-5 border-l-1 border-zinc-800">
         {loading && (
           <div className="flex flex-row justify-center mt-24">
             <CircularProgress />
@@ -60,15 +62,12 @@ export default function ItemDetails() {
         {error && <div className="text-red-500">Error: {error}</div>}
         {!loading && !error && itemData && (
           <>
-            {/* Display noData when volume is negative */}
-
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-5">
               <div>
                 <span className="mr-4 text-neutral-500">{itemData.itemID}</span>
                 <span className="text-2xl font-bold mb-4 text-neutral-200">{itemData.itemName}</span>
               </div>
-              <span></span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
                 <ItemDetailsCard header="Minimum Price" text={numberToGold(itemData.minPrice)} />
                 <ItemDetailsCard header="Historic Price" text={numberToGold(itemData.historicPrice)} />
                 <ItemDetailsCard header="Daily Sale" text={itemData.salesPerDay} />
@@ -77,13 +76,21 @@ export default function ItemDetails() {
                 <ItemDetailsCard header="Average Quantity" text={itemData.historicPrice} />
               </div>
 
-              <div className="text-xl font-medium mb-4 text-neutral-200">Price</div>
+              <Link
+                className="bg-zinc-700 rounded-lg p-2 flex flex-row justify-center gap-2 grow hover:bg-zinc-600 hover:text-cyan-200 cursor:pointer"
+                href={`/arbitrage/${itemData.itemID}`}
+              >
+                <QueryStatsOutlinedIcon />
+                <span>Find arbitrage opportunities</span>
+              </Link>
+
+              <div className="text-xl font-medium text-neutral-200">Price</div>
               <Chart plotData={getPriceTimeSeries(itemData)} yLabel="Price" chartType="price" />
-              <div className="text-xl font-medium mb-4 text-neutral-200">Quantity</div>
+              <div className="text-xl font-medium text-neutral-200">Quantity</div>
               <Chart plotData={getQuantityTimeSeries(itemData)} yLabel="Quantity" chartType="quantity" />
-              <div className="text-xl font-medium mb-4 text-neutral-200">Current Listings</div>
+              <div className="text-xl font-medium text-neutral-200">Current Listings</div>
               <PriceDistributionChart plotData={itemData.listingData} />
-              <div className="text-xl font-medium mb-4 text-neutral-200">Histogram of Current Listings</div>
+              <div className="text-xl font-medium text-neutral-200">Histogram of Current Listings</div>
               <PriceDistributionHistogramChart plotData={itemData.listingData} />
             </div>
           </>

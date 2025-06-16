@@ -34,7 +34,7 @@ export default function ArbitrageDetails() {
         console.info("apiresponse", response);
         if (!response.ok) throw new Error("Failed to fetch data");
         const result = await response.json();
-        setItemData(result?.data);
+        setItemData(result?.data || []);
       } catch (err: any) {
         setError(err.message || "Unknown error");
       } finally {
@@ -46,7 +46,7 @@ export default function ArbitrageDetails() {
 
   return (
     <>
-      <div className="grow p-5">
+      <div className="grow my-5 px-5 border-l-1 border-zinc-800 min-w-0">
         {loading && (
           <div className="flex flex-row justify-center mt-24">
             <CircularProgress />
@@ -55,8 +55,13 @@ export default function ArbitrageDetails() {
         {error && <div className="text-red-500">Error: {error}</div>}
         {!loading && !error && arbitrageData && (
           <>
-            {/* Display noData when volume is negative */}
-            <ArbitrageTable tableData={arbitrageData} />
+            {arbitrageData?.length ? (
+              <ArbitrageTable tableData={arbitrageData} />
+            ) : (
+              <div className="flex flex-row justify-center mt-24">
+                Arbitrage data in this region is not available for the selected item.
+              </div>
+            )}
           </>
         )}
       </div>

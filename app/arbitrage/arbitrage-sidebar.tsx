@@ -14,13 +14,6 @@ function ArbitrageSidebar() {
   const regionValue = useRealmStore((state) => state.region);
   const setRegionValue = useRealmStore((state) => state.setRegion);
 
-  const realmList = useMemo(() => {
-    return Realms[regionValue.value] || [];
-  }, [regionValue]);
-
-  const realmValue = useRealmStore((state) => state.realm);
-  const setRealmValue = useRealmStore((state) => state.setRealm);
-
   const router = useRouter();
   const params = useParams();
   const itemOptions = useMemo(() => getItemOptions(), []);
@@ -38,11 +31,6 @@ function ArbitrageSidebar() {
     }
   }, [params]);
 
-  useEffect(() => {
-    // Set default region and realm when region changes
-    setRealmValue(realmList[0]);
-  }, [realmList]);
-
   const handleRegionChange = (event: SelectChangeEvent<string>) => {
     const selectedRegion = ServerRegions.find((region) => region.value === event.target.value) ?? null;
     if (selectedRegion) {
@@ -50,15 +38,8 @@ function ArbitrageSidebar() {
     }
   };
 
-  const handleRealmChange = (event: SelectChangeEvent<string>) => {
-    const selectedRealm = realmList.find((realm) => realm.name === event.target.value) ?? null;
-    if (selectedRealm) {
-      setRealmValue(selectedRealm);
-    }
-  };
-
   return (
-    <aside className="flex flex-col h-full w-72 gap-3 py-5 pr-5">
+    <aside className="flex flex-col h-full w-72 min-w-72 gap-5 py-5 pr-5">
       <FormControl>
         <InputLabel id="region-select-label">Region</InputLabel>
         <Select
@@ -76,28 +57,11 @@ function ArbitrageSidebar() {
         </Select>
       </FormControl>
 
-      <FormControl>
-        <InputLabel id="realm-select-label">Realm</InputLabel>
-        <Select
-          value={realmValue?.name ?? ""}
-          onChange={handleRealmChange}
-          fullWidth
-          label="Realm"
-          labelId="realm-select-label"
-        >
-          {realmList.map((region: RealmData) => (
-            <MenuItem key={region.name} value={region.name}>
-              {region.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
       <VirtualizedAutocomplete
         value={selectedItem}
         options={itemOptions}
         onChange={(_, value: ItemOption | null) => setSelectedItem(value)}
-        label="Item Id"
+        label="Item"
       />
     </aside>
   );

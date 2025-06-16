@@ -4,7 +4,6 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const itemId = searchParams.get("itemId");
   const region = searchParams.get("region");
-  console.log("itemId", itemId, "region", region);
 
   const requiredParams = { itemId, region };
 
@@ -39,7 +38,6 @@ export async function GET(request: NextRequest) {
     }
 
     const data = await res.json();
-    console.log("API response data:", data?.data?.historicPrice);
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
     console.error(err);
