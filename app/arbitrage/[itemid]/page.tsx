@@ -8,6 +8,7 @@ import { useRealmStore } from "@/app/store/realm";
 import { CircularProgress } from "@mui/material";
 
 import ArbitrageTable from "@/app/ui/arbitrage-table";
+import Disclaimer from "@/app/ui/disclaimer";
 
 export default function ArbitrageDetails() {
   const [arbitrageData, setItemData] = useState<ArbitrageDetails[]>();
@@ -31,7 +32,6 @@ export default function ArbitrageDetails() {
         setError(null);
 
         const response = await fetch(`/api/arbitrage?itemId=${params.itemid}&region=${regionValue.value}`);
-        console.info("apiresponse", response);
         if (!response.ok) throw new Error("Failed to fetch data");
         const result = await response.json();
         setItemData(result?.data || []);
@@ -56,7 +56,10 @@ export default function ArbitrageDetails() {
         {!loading && !error && arbitrageData && (
           <>
             {arbitrageData?.length ? (
-              <ArbitrageTable tableData={arbitrageData} />
+              <div className="flex flex-col gap-5">
+                <ArbitrageTable tableData={arbitrageData} />
+                <Disclaimer />
+              </div>
             ) : (
               <div className="flex flex-row justify-center mt-24">
                 Arbitrage data in this region is not available for the selected item.

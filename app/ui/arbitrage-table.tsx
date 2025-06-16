@@ -1,6 +1,7 @@
 "use client";
 
 import { ArbitrageDetails } from "@/app/lib/models";
+import numberToGold from "@/app/lib/parsers";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const arbitrageColumns: GridColDef[] = [
@@ -11,7 +12,7 @@ const arbitrageColumns: GridColDef[] = [
     valueFormatter: (params: string[]) => params.join(", "),
   },
   { field: "itemQuantity", headerName: "Item Quantity", width: 130 },
-  { field: "minPrice", headerName: "Min Price" },
+  { field: "minPrice", headerName: "Min Price", valueFormatter: (params: number) => numberToGold(params) },
   { field: "realmPopulationType", headerName: "Population Type", width: 150 },
   { field: "realmPopulationReal", headerName: "Realm Population", width: 150 },
   { field: "realmRanking", headerName: "Realm Ranking", width: 130 },

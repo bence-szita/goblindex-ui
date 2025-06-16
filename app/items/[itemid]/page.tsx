@@ -13,6 +13,7 @@ import PriceDistributionChart from "@/app/ui/price-distribution";
 import PriceDistributionHistogramChart from "@/app/ui/price-distribution-histogram";
 import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import Link from "next/link";
+import Disclaimer from "@/app/ui/disclaimer";
 
 export default function ItemDetails() {
   const [itemData, setItemData] = useState<ItemDetails>();
@@ -38,7 +39,6 @@ export default function ItemDetails() {
         const response = await fetch(
           `/api/item-details?itemId=${params.itemid}&region=${regionValue.value}&realmId=${realmValue.id}`
         );
-        console.info("apiresponse", response);
         if (!response.ok) throw new Error("Failed to fetch data");
         const result = await response.json();
         setItemData(result?.data);
@@ -92,6 +92,8 @@ export default function ItemDetails() {
               <PriceDistributionChart plotData={itemData.listingData} />
               <div className="text-xl font-medium text-neutral-200">Histogram of Current Listings</div>
               <PriceDistributionHistogramChart plotData={itemData.listingData} />
+
+              <Disclaimer />
             </div>
           </>
         )}
