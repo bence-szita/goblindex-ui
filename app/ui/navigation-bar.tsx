@@ -5,7 +5,6 @@ import { useParams, usePathname } from "next/navigation";
 
 const links = [
   { name: "Items", href: "/items", routeParam: "itemid" },
-  { name: "Deals", href: "/deals" },
   { name: "Arbitrage", href: "/arbitrage", routeParam: "itemid" },
 ];
 
