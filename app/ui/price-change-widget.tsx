@@ -5,7 +5,6 @@ interface PriceChangeWidgetProps {
   value: number;
 }
 
-//TODO display market value
 function PriceChangeWidget({ value }: PriceChangeWidgetProps) {
   const isPositive = value > 0;
   const isNegative = value < 0;
@@ -13,12 +12,9 @@ function PriceChangeWidget({ value }: PriceChangeWidgetProps) {
 
   return (
     !!value && (
-      <div
-        className={`rounded-full px-3 py-1 flex items-center gap-1 ${color}`}
-        style={{ minWidth: "60px", justifyContent: "center" }}
-      >
-        {isPositive && <ArrowDropUpIcon fontSize="small" />}
-        {isNegative && <ArrowDropDownIcon fontSize="small" />}
+      <div className={`flex items-center gap-1 ${color}`} style={{ minWidth: "60px", justifyContent: "center" }}>
+        {isPositive && <ArrowDropUpIcon fontSize="small" className="-mr-1" />}
+        {isNegative && <ArrowDropDownIcon fontSize="small" className="-mr-1" />}
         <span className="font-semibold">{value} %</span>
       </div>
     )

@@ -8,6 +8,7 @@ import { getItemOptions } from "@/app/lib/utils";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useRealmStore } from "@/app/store/realm";
 import { Realms, ServerRegions } from "@/app/lib/realms";
+import TrendingItems from "@/app/items/trending-items";
 
 function ItemsSidebar() {
   const [selectedItem, setSelectedItem] = useState<ItemOption | null>(null);
@@ -99,6 +100,7 @@ function ItemsSidebar() {
         onChange={(_, value: ItemOption | null) => setSelectedItem(value)}
         label="Item"
       />
+      <TrendingItems />
     </aside>
   );
 }

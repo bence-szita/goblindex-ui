@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Chart from "@/app/ui/chart";
 import type { ItemDetails } from "@/app/lib/models";
 import { useParams } from "next/navigation";
-import ItemDetailsCard from "@/app/ui/item-details-card";
 import { getPriceTimeSeries, getQuantityTimeSeries } from "@/app/lib/utils";
 import { useRealmStore } from "@/app/store/realm";
 import numberToGold from "@/app/lib/parsers";
@@ -15,6 +14,7 @@ import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import Link from "next/link";
 import Disclaimer from "@/app/ui/disclaimer";
 import PriceChangeWidget from "@/app/ui/price-change-widget";
+import ItemDetailsCard from "@/app/ui/item-details-card";
 
 export default function ItemDetails() {
   const [itemData, setItemData] = useState<ItemDetails>();
@@ -50,7 +50,7 @@ export default function ItemDetails() {
       }
     };
     fetchData();
-  }, [regionValue, realmValue]);
+  }, [params.itemid, regionValue.value, realmValue.id]);
 
   return (
     <>
@@ -70,12 +70,29 @@ export default function ItemDetails() {
                 <PriceChangeWidget value={itemData.percentChange} />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
-                <ItemDetailsCard header="Minimum Price" text={numberToGold(itemData.minPrice)} />
-                <ItemDetailsCard header="Historic Price" text={numberToGold(itemData.historicPrice)} />
-                <ItemDetailsCard header="Daily Sale" text={itemData.salesPerDay} />
+                <ItemDetailsCard>
+                  <h2 className="text-xs text-zinc-400">Minimum Price</h2>
+                  <p className=" font-normal">{numberToGold(itemData.minPrice)}</p>
+                </ItemDetailsCard>
 
-                <ItemDetailsCard header="Current Quantity" text={itemData.minPrice} />
-                <ItemDetailsCard header="Average Quantity" text={itemData.historicPrice} />
+                <ItemDetailsCard>
+                  <h2 className="text-xs text-zinc-400">Historic Price</h2>
+                  <p className=" font-normal">{numberToGold(itemData.historicPrice)}</p>
+                </ItemDetailsCard>
+                <ItemDetailsCard>
+                  <h2 className="text-xs text-zinc-400">Daily Sales</h2>
+                  <p className=" font-normal">{itemData.salesPerDay}</p>
+                </ItemDetailsCard>
+
+                <ItemDetailsCard>
+                  <h2 className="text-xs text-zinc-400">Current Quantity</h2>
+                  <p className=" font-normal">{itemData.minPrice}</p>
+                </ItemDetailsCard>
+
+                <ItemDetailsCard>
+                  <h2 className="text-xs text-zinc-400">Average Quantity</h2>
+                  <p className=" font-normal">{itemData.historicPrice}</p>
+                </ItemDetailsCard>
               </div>
 
               <Link

@@ -25,6 +25,26 @@ export interface ItemDetails {
   link: string;
 }
 
+export interface TrendingItemDetails {
+  itemID: number;
+  itemName: string;
+  historicPrice: number;
+  salesPerDay: number;
+  minPrice: number;
+  quantity: number;
+  lowestAuctionID: number | null;
+  item_class: number;
+  item_subclass: number;
+  currentMarketValue: number;
+  historicMarketValue: number;
+  percentChange: number;
+  state: string;
+  currentQuantity: number;
+  avgQuantity: number;
+  currentVsAvgQuantityPercent: number;
+  quantityState: string;
+}
+
 export interface ArbitrageDetails {
   connectedRealmID: number;
   connectedRealmNames: string[];
