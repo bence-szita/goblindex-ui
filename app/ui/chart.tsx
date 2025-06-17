@@ -61,7 +61,7 @@ function Chart({
   chartType: ChartTypes;
 }) {
   if (!plotData || plotData.length === 0) {
-    return <div className="text-zinc-400 my-24">Historical {yLabel} data is not available</div>;
+    return <div className="text-zinc-400 my-12">Historical {yLabel} data is not available</div>;
   }
 
   return (

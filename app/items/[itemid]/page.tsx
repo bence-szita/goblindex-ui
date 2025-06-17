@@ -14,6 +14,7 @@ import PriceDistributionHistogramChart from "@/app/ui/price-distribution-histogr
 import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import Link from "next/link";
 import Disclaimer from "@/app/ui/disclaimer";
+import PriceChangeWidget from "@/app/ui/price-change-widget";
 
 export default function ItemDetails() {
   const [itemData, setItemData] = useState<ItemDetails>();
@@ -63,9 +64,10 @@ export default function ItemDetails() {
         {!loading && !error && itemData && (
           <>
             <div className="flex flex-col gap-5">
-              <div>
-                <span className="mr-4 text-neutral-500">{itemData.itemID}</span>
-                <span className="text-2xl font-bold mb-4 text-neutral-200">{itemData.itemName}</span>
+              <div className="flex flex-row gap-1 items-center">
+                <div className="mr-4 text-neutral-500">{itemData.itemID}</div>
+                <div className="text-2xl font-bold text-neutral-200">{itemData.itemName}</div>
+                <PriceChangeWidget value={itemData.percentChange} />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
                 <ItemDetailsCard header="Minimum Price" text={numberToGold(itemData.minPrice)} />
@@ -77,21 +79,30 @@ export default function ItemDetails() {
               </div>
 
               <Link
-                className="bg-zinc-700 rounded-lg p-2 flex flex-row justify-center gap-2 grow hover:bg-zinc-600 hover:text-cyan-200 cursor:pointer"
+                className="bg-zinc-700 border-1 border-zinc-700 rounded-lg p-2 flex flex-row justify-center gap-2 grow hover:bg-zinc-600 hover:text-cyan-200 cursor:pointer"
                 href={`/arbitrage/${itemData.itemID}`}
               >
                 <QueryStatsOutlinedIcon />
                 <span>Find arbitrage opportunities</span>
               </Link>
 
-              <div className="text-xl font-medium text-neutral-200">Price</div>
-              <Chart plotData={getPriceTimeSeries(itemData)} yLabel="Price" chartType="price" />
-              <div className="text-xl font-medium text-neutral-200">Quantity</div>
-              <Chart plotData={getQuantityTimeSeries(itemData)} yLabel="Quantity" chartType="quantity" />
-              <div className="text-xl font-medium text-neutral-200">Current Listings</div>
-              <PriceDistributionChart plotData={itemData.listingData} />
-              <div className="text-xl font-medium text-neutral-200">Histogram of Current Listings</div>
-              <PriceDistributionHistogramChart plotData={itemData.listingData} />
+              <div className="bg-zinc-800/50 rounded-lg border-1 border-zinc-700 p-4">
+                <div className="text-xl font-medium text-neutral-200">Price</div>
+                <Chart plotData={getPriceTimeSeries(itemData)} yLabel="Price" chartType="price" />
+              </div>
+
+              <div className="bg-zinc-800/50 rounded-lg border-1 border-zinc-700 p-4">
+                <div className="text-xl font-medium text-neutral-200">Quantity</div>
+                <Chart plotData={getQuantityTimeSeries(itemData)} yLabel="Quantity" chartType="quantity" />
+              </div>
+              <div className="bg-zinc-800/50 rounded-lg border-1 border-zinc-700 p-4">
+                <div className="text-xl font-medium text-neutral-200">Current Listings</div>
+                <PriceDistributionChart plotData={itemData.listingData} />
+              </div>
+              <div className="bg-zinc-800/50 rounded-lg border-1 border-zinc-700 p-4">
+                <div className="text-xl font-medium text-neutral-200">Histogram of Current Listings</div>
+                <PriceDistributionHistogramChart plotData={itemData.listingData} />
+              </div>
 
               <Disclaimer />
             </div>
